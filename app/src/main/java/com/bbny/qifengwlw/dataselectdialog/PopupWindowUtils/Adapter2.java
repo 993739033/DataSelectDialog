@@ -53,7 +53,7 @@ public class Adapter2 extends RecyclerView.Adapter<Adapter2.ItemView> {
     @NonNull
     @Override
     public ItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item_2, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pop_item_2, parent, false);
         return new ItemView(view);
     }
 

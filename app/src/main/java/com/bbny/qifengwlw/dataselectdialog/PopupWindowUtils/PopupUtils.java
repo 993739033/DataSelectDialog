@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bbny.qifengwlw.dataselectdialog.Base.BaseItemBean;
 import com.bbny.qifengwlw.dataselectdialog.R;
@@ -21,17 +20,22 @@ import java.util.List;
 //弹窗工具
 public class PopupUtils {
 
-    public static CustomPopWindow showDataSelectView(final Activity activity, View targetView, int width,
+    public static CustomPopWindow showDataSelectView(final Activity activity, int width,
                                                      int height, List<BaseItemBean> beans, final CallBack callBack) {
-        View view = activity.getLayoutInflater().inflate(R.layout.view_condition_select, null);
+        return showDataSelectView(activity, width, height, beans, callBack, false);
+    }
+
+    public static CustomPopWindow showDataSelectView(final Activity activity, int width,
+                                                     int height, List<BaseItemBean> beans, final CallBack callBack, final Boolean autoDimiss) {
+        View view = activity.getLayoutInflater().inflate(R.layout.layout_condition_select, null);
         RecyclerView rv_condition_1 = view.findViewById(R.id.rv_condition_1);
         final RecyclerView rv_condition_2 = view.findViewById(R.id.rv_condition_2);
         initRcy2(activity, rv_condition_2, beans, callBack);
         DividerItemDecoration divider = new DividerItemDecoration(activity, DividerItemDecoration.VERTICAL);
-        divider.setDrawable(activity.getResources().getDrawable(R.drawable.drawable_line));
         rv_condition_1.setAdapter(new Adapter1(activity, beans));
         rv_condition_1.setLayoutManager(new LinearLayoutManager(activity));
-        rv_condition_1.addItemDecoration(divider);
+//        divider.setDrawable(activity.getResources().getDrawable(R.drawable.drawable_line));
+//       rv_condition_1.addItemDecoration(divider);
         ((Adapter1) rv_condition_1.getAdapter()).setCallBack(new Adapter1.CallBack() {
             @Override
             public void callBack(List<BaseItemBean> list) {
@@ -49,7 +53,7 @@ public class PopupUtils {
 
     private static void initRcy2(Context context, RecyclerView rcy2, List<BaseItemBean> list, final CallBack callBack) {
         BaseItemBean bean = getCheckedBean(list);
-        if (bean==null) {
+        if (bean == null) {
             rcy2.setAdapter(null);
             if (callBack != null) {
                 callBack.callBack(new ArrayList<BaseItemBean>());
@@ -77,13 +81,13 @@ public class PopupUtils {
     }
 
     //获取选中的bean 按顺序排序 是否再一开始时初始化时当没有选中项选择第一个
-    public static List<BaseItemBean> getSelectBeans(List<BaseItemBean> beans,Boolean shouldInit) {
+    public static List<BaseItemBean> getSelectBeans(List<BaseItemBean> beans, Boolean shouldInit) {
         List<BaseItemBean> lists = new ArrayList<>();
         if (beans == null || beans.size() == 0) {
             Log.d("tag", "设置的数据不能为空");
             return lists;
         }
-        BaseItemBean bean = getCheckedBean(beans,shouldInit);
+        BaseItemBean bean = getCheckedBean(beans, shouldInit);
         while (bean != null) {
             beans = bean.getItems();
 //            bean.setItems(null);
@@ -91,17 +95,17 @@ public class PopupUtils {
             if (beans == null || beans.size() == 0) {
                 break;
             }
-            bean = getCheckedBean(beans,shouldInit);
+            bean = getCheckedBean(beans, shouldInit);
         }
         return lists;
     }
 
     private static BaseItemBean getCheckedBean(List<BaseItemBean> beans) {
-      return  getCheckedBean(beans, false);
+        return getCheckedBean(beans, false);
     }
 
     //获取选择的item bean
-    private static BaseItemBean getCheckedBean(List<BaseItemBean> beans,Boolean shouldInit) {
+    private static BaseItemBean getCheckedBean(List<BaseItemBean> beans, Boolean shouldInit) {
         for (BaseItemBean b : beans) {
             if (b.isItemChecked()) {
                 return b;
@@ -109,7 +113,7 @@ public class PopupUtils {
         }
         BaseItemBean bean = null;
         //没有设置默认选项则默认选中第一个
-        if (beans.size() > 0&&shouldInit) {
+        if (beans.size() > 0 && shouldInit) {
             bean = beans.get(0).setItemChecked(true);
         }
         return bean;

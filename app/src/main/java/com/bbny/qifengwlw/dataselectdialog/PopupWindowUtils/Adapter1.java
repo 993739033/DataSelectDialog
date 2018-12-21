@@ -1,6 +1,5 @@
 package com.bbny.qifengwlw.dataselectdialog.PopupWindowUtils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bbny.qifengwlw.dataselectdialog.Base.BaseItemBean;
-import com.bbny.qifengwlw.dataselectdialog.DataSelectAdapter;
 import com.bbny.qifengwlw.dataselectdialog.R;
 
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ public class Adapter1  extends RecyclerView.Adapter<Adapter1.ItemView>{
     @NonNull
     @Override
     public ItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item_1, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pop_item_1, parent,false);
         return new ItemView(view);
     }
 
@@ -53,12 +51,12 @@ public class Adapter1  extends RecyclerView.Adapter<Adapter1.ItemView>{
         final BaseItemBean bean = list.get(position);
         if (bean.isItemChecked()){
             ((TextView) holder.itemView.findViewById(R.id.tv_item)).setTextColor( ContextCompat.getColor(context,R.color.app_color_1));
-            (holder.itemView.findViewById(R.id.tv_item)).setBackgroundColor(ContextCompat.getColor(context,R.color.white));
+            (holder.itemView.findViewById(R.id.tv_item)).setBackgroundColor(ContextCompat.getColor(context,R.color.gray_2));
             holder.itemView.findViewById(R.id.line).setVisibility(View.GONE);
         }else{
             ((TextView) holder.itemView.findViewById(R.id.tv_item)).setTextColor(ContextCompat.getColor(context,R.color.black));
             (holder.itemView.findViewById(R.id.tv_item)).setBackgroundColor(ContextCompat.getColor(context,R.color.white));
-            holder.itemView.findViewById(R.id.line).setVisibility(View.VISIBLE);
+            holder.itemView.findViewById(R.id.line).setVisibility(View.GONE);
         }
         ((TextView) holder.itemView.findViewById(R.id.tv_item)).setText(bean.getItemName());
         (holder.itemView.findViewById(R.id.tv_item)).setOnClickListener(new View.OnClickListener() {
